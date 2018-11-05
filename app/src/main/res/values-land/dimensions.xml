@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="numMarge">2sp</dimen>
+    <dimen name="operationMarge">4sp</dimen>
+    <dimen name="resolutionMarge">4sp</dimen>
+    <dimen name="affichageMarge">8sp</dimen>
+    <dimen name="autreMarge">4sp</dimen>
+    <dimen name="parentheseMarge">4sp</dimen>
+    <dimen name="operationArrondissement">8sp</dimen>
+    <dimen name="autreArrondissement">8sp</dimen>
+    <dimen name="resolutionArrondissement">8sp</dimen>
+    <dimen name="parentheseArrondissement">8sp</dimen>
+</resources>
