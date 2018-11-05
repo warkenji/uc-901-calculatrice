@@ -18,30 +18,17 @@ public class MainActivity extends AppCompatActivity {
         TextView calcul = findViewById(R.id.calcul);
         TextView character = (TextView)view;
         String texte = calcul.getText().toString() + character.getText().toString();
+        int nbParentheseOuvrante = texte.split("\\(").length;
+        int nbParentheseFermante = texte.split("\\)").length;
 
         if(texte.length() >= 3 && texte.substring(texte.length() - 3).matches("^[0-9)]([+−]{2}|[×÷]{2})$"))
         {
             texte = texte.substring(0, texte.length() - 2) + texte.charAt(texte.length() - 1);
         }
 
-        if(texte.matches("^(−?\\(*([0-9]\\)*([+−,]|[×÷]-?)?)*)*$") &&
-                !texte.matches("^.*[+−]−.*$") &&
-                !texte.matches("^.*,[0-9]*,.*$") &&
-                !texte.matches("^.*,[()−].*$") &&
-                !texte.matches("^.*(\\)[0-9]+|[0-9]+\\(|\\)\\().*$")) {
-            String texteTempPrecedent;
-            String texteTempSuivant = texte;
-
-            do
-            {
-                texteTempPrecedent = texteTempSuivant;
-                texteTempSuivant = texteTempSuivant.replaceAll("\\([^()]*\\)", "");
-            }
-            while(!texteTempPrecedent.equals(texteTempSuivant));
-
-            if(!texteTempSuivant.contains(")")) {
-                calcul.setText(texte);
-            }
+        if(texte.matches("^(−?\\(+)*−?([0-9]*|[0-9]+(,[0-9]*)?)\\)*([0-9]\\)*(([+−]|[×÷]−?)(\\(−?)*([0-9]*|[0-9]+(,[0-9]*)?))?)*$") && nbParentheseOuvrante - nbParentheseFermante >= 0)
+        {
+            calcul.setText(texte);
         }
 
         resultatPartiel();
