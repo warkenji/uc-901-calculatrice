@@ -18,15 +18,28 @@ public class MainActivity extends AppCompatActivity {
         TextView calcul = findViewById(R.id.calcul);
         TextView character = (TextView)view;
         String texte = calcul.getText().toString() + character.getText().toString();
-        int nbParentheseOuvrante = texte.split("\\(").length;
-        int nbParentheseFermante = texte.split("\\)").length;
+        int nbParentheseOuvrante = 0;
+        int nbParentheseFermante = 0;
+
+        for(int i = 0; i < texte.length(); i++)
+        {
+            switch (texte.charAt(i))
+            {
+                case '(':
+                    nbParentheseOuvrante++;
+                    break;
+
+                case ')':
+                    nbParentheseFermante++;
+            }
+        }
 
         if(texte.length() >= 3 && texte.substring(texte.length() - 3).matches("^[0-9)]([+−]{2}|[×÷]{2})$"))
         {
             texte = texte.substring(0, texte.length() - 2) + texte.charAt(texte.length() - 1);
         }
 
-        if(texte.matches("^(−?\\(+)*−?([0-9]*|[0-9]+(,[0-9]*)?)\\)*([0-9]\\)*(([+−]|[×÷]−?)(\\(−?)*([0-9]*|[0-9]+(,[0-9]*)?))?)*$") && nbParentheseOuvrante - nbParentheseFermante >= 0)
+        if(texte.matches("^(−?\\(+)*−?([0-9]*|[0-9]+(,[0-9]*)?)\\)*([0-9]\\)*(([+−]|[×÷]−?)(\\(−?)*([0-9]*|[0-9]+(,[0-9]*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
         {
             calcul.setText(texte);
         }

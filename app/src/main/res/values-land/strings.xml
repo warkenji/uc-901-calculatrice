@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="vider">CLEAR</string>
-    <string name="historique">HISTORY</string>
     <string name="parenthese_ouvrante">(</string>
     <string name="parenthese_fermante">)</string>
 </resources>

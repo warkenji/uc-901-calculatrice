@@ -28,7 +28,7 @@
         android:singleLine="true"
         android:textColor="@android:color/darker_gray"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V40"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V28"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calcul"
@@ -44,10 +44,45 @@
         android:text="@string/historique"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H34"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H66"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H85"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H99"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/parenthese_ouvrante"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/parentheseMarge"
+        android:background="@drawable/parenthese_fond"
+        android:gravity="center"
+        android:onClick="inserer"
+        android:text="@string/parenthese_ouvrante"
+        android:textColor="@android:color/white"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H15"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H29"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/parenthese_fermante"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/parentheseMarge"
+        android:background="@drawable/parenthese_fond"
+        android:gravity="center"
+        android:onClick="inserer"
+        android:text="@string/parenthese_fermante"
+        android:textColor="@android:color/white"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H29"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H43"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/division"
@@ -60,11 +95,11 @@
         android:text="@string/division"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H34"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H43"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H57"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/multiplication"
@@ -77,13 +112,13 @@
         android:text="@string/multiplication"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H66"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H57"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H71"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/effacer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -92,13 +127,14 @@
         android:gravity="center"
         android:onClick="effacer"
         android:text="@string/effacer"
-        android:textColor="@android:color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
+        android:padding="@dimen/effacerPadding"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_input_delete"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H82"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H98"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H71"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H85"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/soustraction"
@@ -111,11 +147,11 @@
         android:text="@string/soustraction"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H82"
-        app:layout_constraintRight_toRightOf="@+id/guideline_H98"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H71"
+        app:layout_constraintRight_toRightOf="@+id/guideline_H85"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/addition"
@@ -128,11 +164,11 @@
         android:text="@string/addition"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H82"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H98"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H71"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H85"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/resolution"
@@ -146,9 +182,10 @@
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H66"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H98"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H85"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H99"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/virgule"
@@ -161,11 +198,11 @@
         android:text="@string/virgule"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H66"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H82"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H01"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H15"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/vider"
@@ -178,10 +215,11 @@
         android:text="@string/vider"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_H02"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H34"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V52"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H85"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H99"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_0"
@@ -195,11 +233,10 @@
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H02"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H18"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H01"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H15"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_1"
@@ -212,11 +249,11 @@
         android:text="@string/num_1"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H18"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H34"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H15"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H29"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_2"
@@ -229,11 +266,11 @@
         android:text="@string/num_2"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H34"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H29"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H43"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_3"
@@ -246,11 +283,11 @@
         android:text="@string/num_3"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H66"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H43"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H57"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_4"
@@ -263,45 +300,11 @@
         android:text="@string/num_4"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H66"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H82"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/parenthese_ouvrante"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/parentheseMarge"
-        android:background="@drawable/parenthese_fond"
-        android:gravity="center"
-        android:onClick="inserer"
-        android:text="@string/parenthese_ouvrante"
-        android:textColor="@android:color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H02"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H18"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/parenthese_fermante"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/parentheseMarge"
-        android:background="@drawable/parenthese_fond"
-        android:gravity="center"
-        android:onClick="inserer"
-        android:text="@string/parenthese_fermante"
-        android:textColor="@android:color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H18"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H34"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H57"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H71"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_5"
@@ -314,11 +317,11 @@
         android:text="@string/num_5"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H02"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H18"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H01"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H15"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_6"
@@ -331,11 +334,11 @@
         android:text="@string/num_6"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H18"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H34"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H15"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H29"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_7"
@@ -348,11 +351,11 @@
         android:text="@string/num_7"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H34"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H29"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H43"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_8"
@@ -365,11 +368,11 @@
         android:text="@string/num_8"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H66"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H43"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H57"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/num_9"
@@ -382,87 +385,87 @@
         android:text="@string/num_9"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_V76"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H66"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H82"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline_H57"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_H71"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_V40"
+        android:id="@+id/guideline_V28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.28" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_V55"
+        android:id="@+id/guideline_V52"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.52" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_V70"
+        android:id="@+id/guideline_V76"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.76" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_V85"
+        android:id="@+id/guideline_H01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.01" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.29" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.43" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H57"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.57" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H71"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.71" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_H85"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_H02"
+        android:id="@+id/guideline_H99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.02" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.18" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.34" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H66"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H82"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.82" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_H98"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.98" />
+        app:layout_constraintGuide_percent="0.99" />
 
 </android.support.constraint.ConstraintLayout>

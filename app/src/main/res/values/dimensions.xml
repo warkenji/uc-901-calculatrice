@@ -8,4 +8,5 @@
     <dimen name="operationArrondissement">16sp</dimen>
     <dimen name="autreArrondissement">16sp</dimen>
     <dimen name="resolutionArrondissement">16sp</dimen>
+    <dimen name="effacerPadding">16sp</dimen>
 </resources>
