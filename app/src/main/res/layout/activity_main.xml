@@ -17,8 +17,8 @@
         android:textColor="@android:color/black"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/resultat"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="@dimen/affichageMarge" />
 
@@ -32,8 +32,8 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V25"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calcul"
         android:layout_marginEnd="@dimen/affichageMarge" />
 
@@ -47,10 +47,11 @@
         android:text="@string/historique"
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
+        android:onClick="historique"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V40"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H25"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V25" />
 
     <android.support.v7.widget.AppCompatButton
@@ -66,8 +67,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V40"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H25"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H50"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V25" />
 
     <android.support.v7.widget.AppCompatButton
@@ -83,8 +84,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V40"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H75"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H75"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V25" />
 
     <android.support.v7.widget.AppCompatImageButton
@@ -100,8 +101,8 @@
         android:src="@android:drawable/ic_input_delete"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V40"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H75"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H75"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V25" />
 
     <android.support.v7.widget.AppCompatButton
@@ -117,8 +118,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H75"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H75"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
 
     <android.support.v7.widget.AppCompatButton
@@ -134,8 +135,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H75"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H75"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
 
     <android.support.v7.widget.AppCompatButton
@@ -150,8 +151,8 @@
         android:textColor="@android:color/white"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H75"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H75"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
 
     <android.support.v7.widget.AppCompatButton
@@ -167,8 +168,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H75"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H75"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
 
     <android.support.v7.widget.AppCompatButton
@@ -184,8 +185,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H25"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
 
     <android.support.v7.widget.AppCompatButton
@@ -201,8 +202,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H25"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H50"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V85" />
 
     <android.support.v7.widget.AppCompatButton
@@ -218,8 +219,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H25"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
 
     <android.support.v7.widget.AppCompatButton
@@ -235,8 +236,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H25"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H50"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
 
     <android.support.v7.widget.AppCompatButton
@@ -252,8 +253,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V85"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H75"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H75"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V70" />
 
     <android.support.v7.widget.AppCompatButton
@@ -269,8 +270,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H25"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
 
     <android.support.v7.widget.AppCompatButton
@@ -286,8 +287,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H25"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H50"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
 
     <android.support.v7.widget.AppCompatButton
@@ -303,8 +304,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V70"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H75"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H75"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V55" />
 
     <android.support.v7.widget.AppCompatButton
@@ -320,8 +321,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H25"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
 
     <android.support.v7.widget.AppCompatButton
@@ -337,8 +338,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H25"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H50"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H50"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
 
     <android.support.v7.widget.AppCompatButton
@@ -354,8 +355,8 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V55"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_H50"
-        app:layout_constraintRight_toLeftOf="@+id/guideline_H75"
+        app:layout_constraintStart_toEndOf="@+id/guideline_H50"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_H75"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V40" />
 
     <android.support.constraint.Guideline

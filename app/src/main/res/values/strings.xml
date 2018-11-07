@@ -19,4 +19,6 @@
     <string name="multiplication">×</string>
     <string name="division">÷</string>
     <string name="virgule">,</string>
+    <string name="vider_historique">Vider</string>
+    <string name="titre_historique">Historique</string>
 </resources>

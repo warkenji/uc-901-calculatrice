@@ -118,7 +118,7 @@ public class Calcul {
     {
         Resultat resultat = new Resultat();
 
-        while (resultat.indice < equation.length() && equation.substring(0, resultat.indice + 1).matches("^([0-9]+(\\.[0-9]*)?)?$")) {
+        while (resultat.indice < equation.length() && equation.substring(0, resultat.indice + 1).matches("^(\\d+(\\.\\d*)?)?$")) {
             resultat.indice++;
         }
 

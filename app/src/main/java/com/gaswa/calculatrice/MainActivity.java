@@ -1,18 +1,47 @@
 package com.gaswa.calculatrice;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gaswa.calculatrice.donnee.BDD;
+import com.gaswa.calculatrice.donnee.ItemHistorique;
+
 public class MainActivity extends AppCompatActivity {
+    private static final String CALCUL_ID = "calcul";
+    private BDD bdd;
+    private Executeur executeur;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        executeur = new Executeur();
+        bdd = BDD.getInstance(getApplicationContext());
+
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        TextView calcul = findViewById(R.id.calcul);
+        outState.putString(CALCUL_ID, calcul.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        TextView calcul = findViewById(R.id.calcul);
+        String valeur = savedInstanceState.getString(CALCUL_ID, "");
+
+        calcul.setText(valeur);
+        resultatPartiel();
+    }
 
     public void inserer(View view) {
         TextView calcul = findViewById(R.id.calcul);
@@ -34,17 +63,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(texte.length() >= 3 && texte.substring(texte.length() - 3).matches("^[0-9)]([+−]{2}|[×÷]{2})$"))
+        if(texte.length() >= 3 && texte.substring(texte.length() - 3).matches("^[\\d)]([+−]{2}|[×÷]{2})$"))
         {
             texte = texte.substring(0, texte.length() - 2) + texte.charAt(texte.length() - 1);
         }
 
-        if(texte.matches("^(−?\\(+)*−?([0-9]*|[0-9]+(,[0-9]*)?)\\)*([0-9]\\)*(([+−]|[×÷]−?)(\\(−?)*([0-9]*|[0-9]+(,[0-9]*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
+        if(texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)\\)*(\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
         {
             calcul.setText(texte);
         }
 
         resultatPartiel();
+    }
+
+    public void historique(View view)
+    {
+        Intent intent = new Intent(this, Historique.class);
+        startActivity(intent);
     }
 
     public void vider(View view) {
@@ -70,13 +105,55 @@ public class MainActivity extends AppCompatActivity {
     {
         TextView resultat = findViewById(R.id.resultat);
         TextView calcul = findViewById(R.id.calcul);
+        String texteCalcul = calcul.getText().toString();
 
-        resultat();
+        resultatPartiel();
 
-        String texte = resultat.getText().toString();
+        String texteResultat = resultat.getText().toString();
 
-        if(texte.matches("^−?[0-9]+(,[0-9]*)?$")) {
-            calcul.setText(texte);
+        if(texteCalcul.matches("^.*\\d.*[+−×÷].*\\d.*$") && texteResultat.matches("^−?\\d+(,\\d*)?$")) {
+            int nbParentheseOuvrante = 0;
+            int nbParentheseFermante = 0;
+            StringBuilder texteCalculBuilder;
+            final ItemHistorique itemHistorique;
+
+            for(int i = 0; i < texteCalcul.length(); i++)
+            {
+                switch (texteCalcul.charAt(i))
+                {
+                    case '(':
+                        nbParentheseOuvrante++;
+                        break;
+
+                    case ')':
+                        nbParentheseFermante++;
+                }
+            }
+
+            while(texteCalcul.matches("^.*[^\\d)]$"))
+            {
+                texteCalcul = texteCalcul.substring(0, texteCalcul.length() - 1);
+            }
+
+            texteCalculBuilder = new StringBuilder(texteCalcul);
+
+            for(int i = nbParentheseFermante; i < nbParentheseOuvrante; i++)
+            {
+                texteCalculBuilder.append(')');
+            }
+
+            itemHistorique = new ItemHistorique();
+            itemHistorique.calcul = texteCalculBuilder.toString();
+            itemHistorique.resultat = texteResultat;
+
+           executeur.execute(new Runnable() {
+                @Override
+                public void run() {
+                    bdd.itemHistoriqueDao().insert(itemHistorique);
+                }
+            });
+
+            calcul.setText(texteResultat);
             resultat.setText("");
         }
     }
@@ -85,28 +162,13 @@ public class MainActivity extends AppCompatActivity {
     {
         TextView resultat = findViewById(R.id.resultat);
         TextView calcul = findViewById(R.id.calcul);
-        String texte = calcul.getText().toString();
-        if(texte.matches("^−?(\\(|[0-9]+(,[0-9]*)?[+−×÷]).*$"))
-        {
-            resultat();
-        }
-        else
-        {
-            resultat.setText("");
-        }
-    }
-
-    public void resultat()
-    {
-        TextView resultat = findViewById(R.id.resultat);
-        TextView calcul = findViewById(R.id.calcul);
         String texte = calcul.getText().toString().replace(',', '.');
 
-        if(texte.length() > 0)
+        if(texte.length() > 0 && texte.matches("^.*\\d.*[+−×÷].*$"))
         {
             try
             {
-                while(texte.matches("^.*[^0-9]$"))
+                while(texte.matches("^.*[^\\d)]$"))
                 {
                     texte = texte.substring(0, texte.length() - 1);
                 }
@@ -134,6 +196,10 @@ public class MainActivity extends AppCompatActivity {
             {
                 texte = "Impossible";
             }
+        }
+        else
+        {
+            texte = "";
         }
 
         resultat.setText(texte);
