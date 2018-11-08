@@ -1,13 +1,18 @@
 package com.gaswa.calculatrice;
 
+import android.arch.lifecycle.LiveData;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
@@ -16,60 +21,61 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
-public class Historique extends AppCompatActivity implements Runnable {
-    private static final String CALCUL_ID = "calcul";
-    private static final String RESULTAT_ID = "resultat";
+public class Historique extends AppCompatActivity {
     private BDD bdd;
     private List<Map<String, String>> liste;
     private SimpleAdapter adapter;
-    private Executeur executeur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historique);
 
-        executeur = new Executeur();
         bdd = BDD.getInstance(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Get a support ActionBar corresponding to this toolbar
         ActionBar actionBar = getSupportActionBar();
 
-        // Enable the Up button
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        executeur.execute(this);
-    }
-
-    @Override
-    public void run() {
-        String[] from = {CALCUL_ID, RESULTAT_ID};
+        String calcul_id = getString(R.string.calcul_id);
+        String resultat_id = getString(R.string.resultat_id);
+        String[] from = {calcul_id, resultat_id};
         int[] to = {R.id.calcul, R.id.resultat};
 
-        List<ItemHistorique> historique =  bdd.itemHistoriqueDao().getAll();
-        liste = new ArrayList<>(historique.size());
+        LiveData<List<ItemHistorique>> historiqueListener =  bdd.itemHistoriqueDao().getAll();
+        historiqueListener.observe(this, historique -> {
+            if(historique != null) {
+                liste = new ArrayList<>(historique.size());
 
-        for(int i = historique.size() - 1; i >= 0; i--)
-        {
-            ItemHistorique itemHistorique = historique.get(i);
-            Map<String, String> item = new HashMap<>();
-            item.put(CALCUL_ID, itemHistorique.calcul);
-            item.put(RESULTAT_ID, itemHistorique.resultat);
-            liste.add(item);
-        }
+                for (int i = historique.size() - 1; i >= 0; i--) {
+                    ItemHistorique itemHistorique = historique.get(i);
+                    Map<String, String> item = new HashMap<>();
+                    item.put(calcul_id, itemHistorique.calcul);
+                    item.put(resultat_id, itemHistorique.resultat);
+                    liste.add(item);
+                }
 
-        adapter = new SimpleAdapter(this, liste, R.layout.item_historique, from, to);
-        final ListView listeVue = findViewById(R.id.historique);
+                adapter = new SimpleAdapter(this, liste, R.layout.item_historique, from, to);
+                ListView listeVue = findViewById(R.id.historique);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+                listeVue.setOnItemClickListener((parent, view, position, id) -> {
+                    ViewGroup viewGroup = (ViewGroup)view;
+                    TextView calcul = viewGroup.findViewById(R.id.calcul);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.calcul_id), calcul.getText().toString());
+                    editor.apply();
+
+                    finish();
+                });
+
                 listeVue.setAdapter(adapter);
             }
         });
@@ -89,13 +95,7 @@ public class Historique extends AppCompatActivity implements Runnable {
             case R.id.vider:
                 liste.clear();
                 adapter.notifyDataSetChanged();
-
-                executeur.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        bdd.itemHistoriqueDao().deleteAll();
-                    }
-                });
+                Executors.newSingleThreadExecutor().execute(() -> bdd.itemHistoriqueDao().deleteAll());
 
                 return true;
 

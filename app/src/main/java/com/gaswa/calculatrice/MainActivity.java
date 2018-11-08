@@ -1,6 +1,8 @@
 package com.gaswa.calculatrice;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,19 +11,44 @@ import android.widget.TextView;
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
 
+import java.util.concurrent.Executors;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String CALCUL_ID = "calcul";
     private BDD bdd;
-    private Executeur executeur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        executeur = new Executeur();
         bdd = BDD.getInstance(getApplicationContext());
 
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView calcul = findViewById(R.id.calcul);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String texte = sharedPref.getString(getString(R.string.calcul_id), calcul.getText().toString());
+
+        calcul.setText(texte);
+        resultatPartiel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView calcul = findViewById(R.id.calcul);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.calcul_id), calcul.getText().toString());
+        editor.apply();
     }
 
     @Override
@@ -29,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         TextView calcul = findViewById(R.id.calcul);
-        outState.putString(CALCUL_ID, calcul.getText().toString());
+        outState.putString(getString(R.string.calcul_id), calcul.getText().toString());
     }
 
     @Override
@@ -37,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         TextView calcul = findViewById(R.id.calcul);
-        String valeur = savedInstanceState.getString(CALCUL_ID, "");
+        String valeur = savedInstanceState.getString(getString(R.string.calcul_id), "");
 
         calcul.setText(valeur);
         resultatPartiel();
@@ -146,12 +173,7 @@ public class MainActivity extends AppCompatActivity {
             itemHistorique.calcul = texteCalculBuilder.toString();
             itemHistorique.resultat = texteResultat;
 
-           executeur.execute(new Runnable() {
-                @Override
-                public void run() {
-                    bdd.itemHistoriqueDao().insert(itemHistorique);
-                }
-            });
+            Executors.newSingleThreadExecutor().execute(() -> bdd.itemHistoriqueDao().insert(itemHistorique));
 
             calcul.setText(texteResultat);
             resultat.setText("");
