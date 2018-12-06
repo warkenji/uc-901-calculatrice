@@ -2,10 +2,12 @@ package com.gaswa.calculatrice;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaswa.calculatrice.donnee.BDD;
@@ -26,11 +28,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         TextView calcul = findViewById(R.id.calcul);
@@ -39,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
         calcul.setText(texte);
         resultatPartiel();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            calcul.setShowSoftInputOnFocus(false);
+        }
     }
 
     @Override
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.calcul_id), calcul.getText().toString());
         editor.apply();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            EditText editText = (EditText)calcul;
+            editText.setSelection(calcul.getText().length());
+        }
     }
 
     @Override
@@ -73,7 +80,31 @@ public class MainActivity extends AppCompatActivity {
     public void inserer(View view) {
         TextView calcul = findViewById(R.id.calcul);
         TextView character = (TextView)view;
-        String texte = calcul.getText().toString() + character.getText().toString();
+
+        String texte = calcul.getText().toString();
+        int positionDebut = 0;
+        String texteDebut;
+        String texteFin;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            positionDebut = calcul.getSelectionStart();
+            int positionFin = calcul.getSelectionEnd();
+
+            String caractere = character.getText().toString();
+            texteDebut = texte.substring(0, positionDebut);
+            texteFin = texte.substring(positionFin);
+
+            texteDebut += caractere;
+            texte = texteDebut + texteFin;
+        }
+        else
+        {
+            texte += character.getText().toString();
+            texteDebut = texte;
+            texteFin = "";
+        }
+
         int nbParentheseOuvrante = 0;
         int nbParentheseFermante = 0;
 
@@ -90,14 +121,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(texte.length() >= 3 && texte.substring(texte.length() - 3).matches("^[\\d)]([+−]{2}|[×÷]{2})$"))
+        if(texteDebut.length() >= 3 && texteDebut.substring(texteDebut.length() - 3).matches("^[\\d)]([+−]{2}|[×÷]{2})$"))
         {
-            texte = texte.substring(0, texte.length() - 2) + texte.charAt(texte.length() - 1);
+
+            texteDebut = texteDebut.substring(0, texteDebut.length() - 2) + texteDebut.charAt(texteDebut.length() - 1);
+            texte = texteDebut + texteFin;
+        }
+        else
+        {
+            positionDebut += character.getText().length();
         }
 
         if(texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)\\)*(\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
         {
             calcul.setText(texte);
+
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                EditText editText = (EditText)calcul;
+                editText.setSelection(positionDebut);
+            }
         }
 
         resultatPartiel();
@@ -120,9 +164,35 @@ public class MainActivity extends AppCompatActivity {
     {
         TextView calcul = findViewById(R.id.calcul);
         String texte = calcul.getText().toString();
+        int positionDebut = 0;
 
-        if(texte.length() > 0) {
-            calcul.setText(texte.substring(0, texte.length() - 1));
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            positionDebut = calcul.getSelectionStart();
+            int positionFin = calcul.getSelectionEnd();
+
+            if(positionDebut == positionFin)
+            {
+                positionDebut = Math.max(positionDebut - 1, 0);
+            }
+
+            String texteDebut = texte.substring(0, positionDebut);
+            String texteFin = texte.substring(positionFin);
+
+            texte = texteDebut + texteFin;
+        }
+        else
+        {
+            texte = texte.substring(0, Math.max(texte.length() - 1, 0));
+        }
+
+
+        calcul.setText(texte);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            EditText editText = (EditText)calcul;
+            editText.setSelection(positionDebut);
         }
 
         resultatPartiel();
