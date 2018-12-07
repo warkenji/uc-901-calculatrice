@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/ecrire"
+        style="?android:attr/buttonStyleInset"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/dialog_frame"
+        android:tint="@android:color/holo_blue_dark" />
+
+    <ImageButton
+        android:id="@+id/effacer"
+        style="?android:attr/buttonStyleInset"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/gallery_thumb"
+        android:tint="@android:color/holo_blue_dark" />
+
+    <ImageButton
+        android:id="@+id/precedent"
+        style="?android:attr/buttonStyleInset"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_menu_revert"
+        android:tint="@android:color/holo_blue_dark" />
+
+    <ImageButton
+        android:id="@+id/suivant"
+        style="?android:attr/buttonStyleInset"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:rotation="0"
+        android:scaleType="fitCenter"
+        android:scaleX="-1"
+        android:src="@android:drawable/ic_menu_revert"
+        android:tint="@android:color/holo_blue_dark" />
+
+</LinearLayout>

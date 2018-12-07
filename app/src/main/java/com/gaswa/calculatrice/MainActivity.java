@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
-import com.gaswa.calculatrice.mode.handwritting_recognition.HandWrittingRecognitionSurface;
 
 import java.util.concurrent.Executors;
 
@@ -28,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        HandWrittingRecognitionSurface handWrittingRecognition = findViewById(R.id.surfaceWritting);
-        handWrittingRecognition.setResultatListener(resultat -> {
-            TextView calcul = findViewById(R.id.calcul);
-            calcul.setText(resultat);
-        });
+//        HandWrittingRecognitionSurface handWrittingRecognition = findViewById(R.id.surfaceWritting);
+//        handWrittingRecognition.setResultatListener(resultat -> {
+//            TextView calcul = findViewById(R.id.calcul);
+//            calcul.setText(resultat);
+//        });
     }
 
     @Override
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             positionDebut += character.getText().length();
         }
 
-        if(texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)\\)*(\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
+        if(texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)([^)]\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
         {
             calcul.setText(texte);
 
