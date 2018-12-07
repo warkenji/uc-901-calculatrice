@@ -1,39 +1,24 @@
 package com.gaswa.calculatrice;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+import com.gaswa.calculatrice.mode.handwritting_recognition.HandWrittingRecognitionSurface;
 
-import java.io.IOException;
 import java.util.concurrent.Executors;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import static android.Manifest.permission.*;
 
 public class MainActivity extends AppCompatActivity {
     private BDD bdd;
-    private final int PICK_IMAGE_REQUEST_CODE = 10;
-    private final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        // pickImage();
+        HandWrittingRecognitionSurface handWrittingRecognition = findViewById(R.id.surfaceWritting);
+        handWrittingRecognition.setResultatListener(resultat -> {
+            TextView calcul = findViewById(R.id.calcul);
+            calcul.setText(resultat);
+        });
     }
 
     @Override
@@ -314,73 +303,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         resultat.setText(texte);
-    }
-
-    private void pickImage() {
-        if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            );
-            intent.setType("image/*");
-            startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
-        } else {
-            String[] permissions;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
-                ActivityCompat.requestPermissions(
-                        this,
-                        permissions,
-                        READ_EXTERNAL_STORAGE_REQUEST_CODE
-                );
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST_CODE) {
-            if (resultCode != Activity.RESULT_OK) {
-                return;
-            }
-            if(data != null) {
-                Uri uri = data.getData();
-
-                if (uri != null) {
-                    try {
-                        FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(this, uri);
-
-                        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                                .getOnDeviceTextRecognizer();
-
-                        detector.processImage(image)
-                                        .addOnSuccessListener(firebaseVisionText -> {
-                                            // Task completed successfully
-                                            // ...
-                                            Log.i("Resulat image", firebaseVisionText.getText());
-                                        })
-                                        .addOnFailureListener(
-                                                Throwable::printStackTrace);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case READ_EXTERNAL_STORAGE_REQUEST_CODE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // pick image after request permission success
-                    pickImage();
-                }
-            break;
-        }
     }
 }

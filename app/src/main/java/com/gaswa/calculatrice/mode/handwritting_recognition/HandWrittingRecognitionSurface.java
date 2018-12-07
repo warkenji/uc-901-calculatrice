@@ -11,12 +11,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+
 import java.util.LinkedList;
 
 public class HandWrittingRecognitionSurface extends SurfaceView implements SurfaceHolder.Callback {
@@ -24,10 +26,9 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
 
     private HandWrittingRecognitionThread thread;
     public static int BRUSH_SIZE = 20;
-    public static final int DEFAULT_COLOR = Color.RED;
+    public static final int DEFAULT_COLOR = Color.BLACK; //Color.argb(255, 30, 144, 255);
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
-    private float mX, mY;
     private Path mPath;
     private PointF pos;
     private Paint mPaint;
@@ -42,6 +43,9 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private Paint mBitmapPaint;
+    FirebaseVisionImage image;
+    FirebaseVisionTextRecognizer detector;
+    private ResultatListener resultatListener;
 
     public HandWrittingRecognitionSurface(Context context)  {
         this(context, null);
@@ -61,6 +65,11 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setXfermode(null);
         mPaint.setAlpha(0xff);
+        resultatListener = null;
+
+        image = null;
+
+        detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
 
         mEmboss = new EmbossMaskFilter(new float[] {1, 1, 1}, 0.4f, 6, 3.5f);
         mBlur = new BlurMaskFilter(5, BlurMaskFilter.Blur.NORMAL);
@@ -97,10 +106,27 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
     }
 
     public void update()  {
+        if(image == null) {
+            image = FirebaseVisionImage.fromBitmap(mBitmap);
 
+            detector.processImage(image)
+                    .addOnSuccessListener(firebaseVisionText -> {
+                        if(resultatListener != null)
+                        {
+                            resultatListener.onResultReceived(firebaseVisionText.getText().trim());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        if(resultatListener != null)
+                        {
+                            resultatListener.onResultReceived("");
+                        }
+                    })
+                    .addOnCompleteListener(task -> {
+                        image = null;
+                    });
+        }
     }
-
-
 
     @Override
     public void draw(Canvas canvas)  {
@@ -205,5 +231,9 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
         }
 
         return true;
+    }
+
+    public void setResultatListener(ResultatListener resultatListener) {
+        this.resultatListener = resultatListener;
     }
 }
