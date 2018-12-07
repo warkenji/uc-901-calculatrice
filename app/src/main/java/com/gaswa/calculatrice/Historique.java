@@ -1,12 +1,8 @@
 package com.gaswa.calculatrice;
 
-import android.arch.lifecycle.LiveData;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -17,15 +13,19 @@ import android.widget.TextView;
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+
 public class Historique extends AppCompatActivity {
     private BDD bdd;
-    private List<Map<String, String>> liste;
     private SimpleAdapter adapter;
 
     @Override
@@ -48,11 +48,15 @@ public class Historique extends AppCompatActivity {
         String resultat_id = getString(R.string.resultat_id);
         String[] from = {calcul_id, resultat_id};
         int[] to = {R.id.calcul, R.id.resultat};
+        final LinkedList<Map<String, String>> liste = new LinkedList<>();
+        final ListView listeVue = findViewById(R.id.historique);
+
+        adapter = new SimpleAdapter(this, liste, R.layout.item_historique, from, to);
 
         LiveData<List<ItemHistorique>> historiqueListener =  bdd.itemHistoriqueDao().getAll();
         historiqueListener.observe(this, historique -> {
             if(historique != null) {
-                liste = new ArrayList<>(historique.size());
+                liste.clear();
 
                 for (int i = historique.size() - 1; i >= 0; i--) {
                     ItemHistorique itemHistorique = historique.get(i);
@@ -61,9 +65,6 @@ public class Historique extends AppCompatActivity {
                     item.put(resultat_id, itemHistorique.resultat);
                     liste.add(item);
                 }
-
-                adapter = new SimpleAdapter(this, liste, R.layout.item_historique, from, to);
-                ListView listeVue = findViewById(R.id.historique);
 
                 listeVue.setOnItemClickListener((parent, view, position, id) -> {
                     ViewGroup viewGroup = (ViewGroup)view;
@@ -76,7 +77,7 @@ public class Historique extends AppCompatActivity {
                     finish();
                 });
 
-                listeVue.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -93,8 +94,6 @@ public class Historique extends AppCompatActivity {
         switch(item.getItemId())
         {
             case R.id.vider:
-                liste.clear();
-                adapter.notifyDataSetChanged();
                 Executors.newSingleThreadExecutor().execute(() -> bdd.itemHistoriqueDao().deleteAll());
 
                 return true;

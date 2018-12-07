@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/calcul"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="@dimen/affichageMarge" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/resultat"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/calcul"
         android:layout_marginEnd="@dimen/affichageMarge" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/historique"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -53,7 +53,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H99"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/parenthese_ouvrante"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H29"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/parenthese_fermante"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -87,7 +87,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H43"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/division"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -104,7 +104,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H57"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/multiplication"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H71"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/effacer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -139,7 +139,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H85"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/soustraction"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -156,7 +156,7 @@
         app:layout_constraintEnd_toEndOf="@+id/guideline_H85"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addition"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -173,7 +173,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H85"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/resolution"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -190,7 +190,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H99"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/virgule"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -207,7 +207,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H15"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/vider"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -224,7 +224,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H99"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V28" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_0"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -241,7 +241,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H15"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -258,7 +258,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H29"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_2"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -275,7 +275,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H43"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_3"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -292,7 +292,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H57"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_4"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -309,7 +309,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H71"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V76" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_5"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -326,7 +326,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H15"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_6"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -343,7 +343,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H29"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_7"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -360,7 +360,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H43"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_8"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -377,7 +377,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H57"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/num_9"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -394,81 +394,81 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_H71"
         app:layout_constraintTop_toBottomOf="@+id/guideline_V52" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_V28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.28" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_V52"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.52" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_V76"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.76" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.01" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.15" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.29" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H43"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.43" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H57"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.57" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H71"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.71" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H85"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_H99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.99" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

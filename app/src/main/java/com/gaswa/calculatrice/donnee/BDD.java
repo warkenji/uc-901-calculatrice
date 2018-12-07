@@ -1,11 +1,11 @@
 package com.gaswa.calculatrice.donnee;
-
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {ItemHistorique.class}, version = 1)
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+
+@Database(entities = {ItemHistorique.class}, version = 1, exportSchema = false)
 public abstract class BDD extends RoomDatabase {
     private static BDD instance = null;
     public abstract ItemHistoriqueDao itemHistoriqueDao();

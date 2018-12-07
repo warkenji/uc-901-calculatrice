@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1082165683563",
+    "firebase_url": "https://calculatrice-d0735.firebaseio.com",
+    "project_id": "calculatrice-d0735",
+    "storage_bucket": "calculatrice-d0735.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082165683563:android:4e61a9fca14017be",
+        "android_client_info": {
+          "package_name": "com.gaswa.calculatrice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082165683563-eo22aekp2ma15o3dtno1c452b5d8o54g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTcr2hXxTpgVxrAfkr_Ux3OsewYusKSCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
