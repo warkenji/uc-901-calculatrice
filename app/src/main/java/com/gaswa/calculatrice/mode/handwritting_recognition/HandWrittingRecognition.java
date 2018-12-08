@@ -21,11 +21,13 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.util.LinkedList;
 
-public class HandWrittingRecognitionSurface extends SurfaceView implements SurfaceHolder.Callback {
+public class HandWrittingRecognition extends SurfaceView implements SurfaceHolder.Callback {
 
 
     private HandWrittingRecognitionThread thread;
-    public static int BRUSH_SIZE = 20;
+    public final static int BRUSH_SIZE_MIN = 16;
+    public final static int BRUSH_SIZE_MAX = 32;
+    public static int BRUSH_SIZE = BRUSH_SIZE_MIN;
     public static final int DEFAULT_COLOR = Color.BLACK; //Color.argb(255, 30, 144, 255);
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
@@ -33,6 +35,7 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
     private PointF pos;
     private Paint mPaint;
     private LinkedList<FingerPath> paths;
+    private LinkedList<FingerPath> forwardPaths;
     private int currentColor;
     private int backgroundColor;
     private int strokeWidth;
@@ -47,14 +50,15 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
     FirebaseVisionTextRecognizer detector;
     private ResultatListener resultatListener;
 
-    public HandWrittingRecognitionSurface(Context context)  {
+    public HandWrittingRecognition(Context context)  {
         this(context, null);
     }
 
-    public HandWrittingRecognitionSurface(Context context, AttributeSet attrs) {
+    public HandWrittingRecognition(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint();
         paths = new LinkedList<>();
+        forwardPaths = new LinkedList<>();
         backgroundColor = DEFAULT_BG_COLOR;
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         mPaint.setAntiAlias(true);
@@ -83,9 +87,33 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
         pos = new PointF();
     }
 
+
+    private String conversion(String texte)
+    {
+        texte = texte.replaceAll("[\\s\\n\\t\\r]+", "");
+        texte = texte.replace('x', '×');
+        texte = texte.replace('X', '×');
+        texte = texte.replace('*', '×');
+        texte = texte.replace('-', '−');
+        texte = texte.replace('/', '÷');
+        return texte;
+    }
+
     public void normal() {
         emboss = false;
         blur = false;
+    }
+
+    public void normalMode()
+    {
+        strokeWidth = BRUSH_SIZE_MIN;
+        currentColor = Color.BLACK;
+    }
+
+    public void deleteMode()
+    {
+        strokeWidth = BRUSH_SIZE_MAX;
+        currentColor = Color.WHITE;
     }
 
     public void emboss() {
@@ -113,7 +141,7 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
                     .addOnSuccessListener(firebaseVisionText -> {
                         if(resultatListener != null)
                         {
-                            resultatListener.onResultReceived(firebaseVisionText.getText().trim());
+                            resultatListener.onResultReceived(conversion(firebaseVisionText.getText().trim()));
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -186,10 +214,31 @@ public class HandWrittingRecognitionSurface extends SurfaceView implements Surfa
         }
     }
 
+    public void previous()
+    {
+        FingerPath fingerPath = paths.pollLast();
+
+        if(fingerPath != null)
+        {
+            forwardPaths.add(fingerPath);
+        }
+    }
+
+    public void forward()
+    {
+        FingerPath fingerPath = forwardPaths.pollLast();
+
+        if(fingerPath != null)
+        {
+            paths.add(fingerPath);
+        }
+    }
+
     private void touchStart(float x, float y) {
         mPath = new Path();
         FingerPath fp = new FingerPath(currentColor, emboss, blur, strokeWidth, mPath);
         paths.add(fp);
+        forwardPaths.clear();;
 
         mPath.reset();
         mPath.moveTo(x, y);

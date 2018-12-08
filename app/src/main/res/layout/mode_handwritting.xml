@@ -21,7 +21,8 @@
         android:layout_marginEnd="@dimen/affichageMarge" />
 
 
-    <com.gaswa.calculatrice.mode.handwritting_recognition.HandWrittingRecognitionSurface
+    <com.gaswa.calculatrice.mode.handwritting_recognition.HandWrittingRecognition
+        android:id="@+id/handwritting_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_V875"

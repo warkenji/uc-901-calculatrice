@@ -35,9 +35,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calcul" />
 
-    <include
+    <ViewStub
         android:id="@+id/mode_principal"
-        layout="@layout/mode_basic"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

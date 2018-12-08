@@ -5,10 +5,10 @@ import android.view.SurfaceHolder;
 
 public class HandWrittingRecognitionThread extends Thread {
     private boolean continuer;
-    private HandWrittingRecognitionSurface surface;
+    private HandWrittingRecognition surface;
     private SurfaceHolder surfaceHolder;
 
-    public HandWrittingRecognitionThread(HandWrittingRecognitionSurface surface, SurfaceHolder surfaceHolder)  {
+    public HandWrittingRecognitionThread(HandWrittingRecognition surface, SurfaceHolder surfaceHolder)  {
         this.surface = surface;
         this.surfaceHolder= surfaceHolder;
     }

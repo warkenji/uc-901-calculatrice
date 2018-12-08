@@ -6,18 +6,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaswa.calculatrice.donnee.BDD;
 import com.gaswa.calculatrice.donnee.ItemHistorique;
+import com.gaswa.calculatrice.mode.handwritting_recognition.HandWrittingRecognition;
+import com.gaswa.calculatrice.mode.image_recognition.ImageRecognition;
+import com.gaswa.calculatrice.mode.voice_recognition.VoiceRecognition;
 
 import java.util.concurrent.Executors;
 
+import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private BDD bdd;
+    ImageRecognition imageRecognition;
+    VoiceRecognition voiceRecognition;
+    @LayoutRes int layoutActuel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +33,107 @@ public class MainActivity extends AppCompatActivity {
 
         bdd = BDD.getInstance(getApplicationContext());
 
-        setContentView(R.layout.activity_main);
+        layoutActuel = R.layout.mode_basic;
+        changementVue(layoutActuel);
 
-//        HandWrittingRecognitionSurface handWrittingRecognition = findViewById(R.id.surfaceWritting);
-//        handWrittingRecognition.setResultatListener(resultat -> {
-//            TextView calcul = findViewById(R.id.calcul);
-//            calcul.setText(resultat);
-//        });
+        imageRecognition = new ImageRecognition(this);
+        voiceRecognition = new VoiceRecognition(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TextView calcul = findViewById(R.id.calcul);
+            calcul.setShowSoftInputOnFocus(false);
+        }
+    }
+
+    public View changementVue(@LayoutRes int layout)
+    {
+        setContentView(R.layout.activity_main);
+        ViewStub stub = findViewById(R.id.mode_principal);
+        stub.setLayoutResource(layout);
+
+        return stub.inflate();
+    }
+
+    public void handWrittingPrevious(View view)
+    {
+        HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
+
+        if(handWrittingRecognition != null)
+        {
+            handWrittingRecognition.previous();
+        }
+    }
+
+    public void handWrittingForward(View view)
+    {
+        HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
+
+        if(handWrittingRecognition != null)
+        {
+            handWrittingRecognition.forward();
+        }
+    }
+
+    public void handWrittingMode(View view)
+    {
+        layoutActuel = R.layout.mode_handwritting;
+        changementVue(layoutActuel);
+
+        HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
+        handWrittingRecognition.setResultatListener(texte -> {
+            TextView calcul = findViewById(R.id.calcul);
+            TextView resultat = findViewById(R.id.resultat);
+
+            boolean verif = texte.length() > 0 && texte.charAt(texte.length() - 1) == '=';
+            if(verif)
+            {
+                texte = texte.substring(0, texte.length() - 1);
+            }
+
+            if(MainActivity.this.verification(texte))
+            {
+                calcul.setText(texte);
+
+                if(verif)
+                {
+                    MainActivity.this.resolution(MainActivity.this.findViewById(R.id.resolution));
+                }
+                else
+                {
+                    MainActivity.this.resultatPartiel();
+                }
+            }
+            else
+            {
+                calcul.setText("");
+                resultat.setText("");
+            }
+        });
+    }
+
+    public void normalMode(View view)
+    {
+        layoutActuel = R.layout.mode_basic;
+        changementVue(layoutActuel);
+    }
+
+    public void handWrittingNormal(View view)
+    {
+        HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
+
+        if(handWrittingRecognition != null)
+        {
+            handWrittingRecognition.normalMode();
+        }
+    }
+
+    public void handWrittingDelete(View view)
+    {
+        HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
+
+        if(handWrittingRecognition != null)
+        {
+            handWrittingRecognition.deleteMode();
+        }
     }
 
     @Override
@@ -45,7 +147,19 @@ public class MainActivity extends AppCompatActivity {
         resultatPartiel();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            EditText editText = (EditText)calcul;
             calcul.setShowSoftInputOnFocus(false);
+            int selectionStart = sharedPref.getInt(getString(R.string.selection_start_id), calcul.length());
+            int selectionEnd = sharedPref.getInt(getString(R.string.selection_end_id), calcul.length());
+
+            if(selectionStart == selectionEnd)
+            {
+                editText.setSelection(selectionStart);
+            }
+            else
+            {
+                editText.setSelection(selectionStart, selectionEnd);
+            }
         }
     }
 
@@ -56,13 +170,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.calcul_id), calcul.getText().toString());
-        editor.apply();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            EditText editText = (EditText)calcul;
-            editText.setSelection(calcul.getText().length());
+            editor.putInt(getString(R.string.selection_start_id), calcul.getSelectionStart());
+            editor.putInt(getString(R.string.selection_end_id), calcul.getSelectionEnd());
         }
+
+        editor.apply();
     }
 
     @Override
@@ -71,6 +186,13 @@ public class MainActivity extends AppCompatActivity {
 
         TextView calcul = findViewById(R.id.calcul);
         outState.putString(getString(R.string.calcul_id), calcul.getText().toString());
+        outState.putInt(getString(R.string.layout_actuel_id), layoutActuel);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            outState.putInt(getString(R.string.selection_start_id), calcul.getSelectionStart());
+            outState.putInt(getString(R.string.selection_end_id), calcul.getSelectionEnd());
+        }
     }
 
     @Override
@@ -79,9 +201,44 @@ public class MainActivity extends AppCompatActivity {
 
         TextView calcul = findViewById(R.id.calcul);
         String valeur = savedInstanceState.getString(getString(R.string.calcul_id), "");
+        layoutActuel = savedInstanceState.getInt(getString(R.string.layout_actuel_id), layoutActuel);
+
+        changementVue(layoutActuel);
 
         calcul.setText(valeur);
         resultatPartiel();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            EditText editText = (EditText)calcul;
+            int selectionStart = savedInstanceState.getInt(getString(R.string.selection_start_id), calcul.length());
+            int selectionEnd = savedInstanceState.getInt(getString(R.string.selection_end_id), calcul.length());
+
+            if(selectionStart == selectionEnd)
+            {
+                editText.setSelection(selectionStart);
+            }
+            else
+            {
+                editText.setSelection(selectionStart, selectionEnd);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        imageRecognition.onActivityResult(requestCode, resultCode, data);
+        voiceRecognition.onActivityResult(requestCode, resultCode, data);
+
+        TextView calcul = findViewById(R.id.calcul);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        imageRecognition.onRequestPermissionsResult(requestCode, grantResults);
     }
 
     public void inserer(View view) {
@@ -112,6 +269,35 @@ public class MainActivity extends AppCompatActivity {
             texteFin = "";
         }
 
+        if(texteDebut.length() >= 3 && texteDebut.substring(texteDebut.length() - 3).matches("^[\\d)]([+−]{2}|[×÷]{2})$"))
+        {
+
+            texteDebut = texteDebut.substring(0, texteDebut.length() - 2) + texteDebut.charAt(texteDebut.length() - 1);
+            texte = texteDebut + texteFin;
+        }
+        else
+        {
+            positionDebut += character.getText().length();
+        }
+
+        if(verification(texte))
+        {
+            calcul.setText(texte);
+
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                EditText editText = (EditText)calcul;
+                editText.setSelection(positionDebut);
+            }
+        }
+
+        resultatPartiel();
+    }
+
+    public boolean verification(String texte)
+    {
+
         int nbParentheseOuvrante = 0;
         int nbParentheseFermante = 0;
 
@@ -128,30 +314,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(texteDebut.length() >= 3 && texteDebut.substring(texteDebut.length() - 3).matches("^[\\d)]([+−]{2}|[×÷]{2})$"))
-        {
+        return texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)((?<!\\))\\d\\)?(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante;
+    }
 
-            texteDebut = texteDebut.substring(0, texteDebut.length() - 2) + texteDebut.charAt(texteDebut.length() - 1);
-            texte = texteDebut + texteFin;
-        }
-        else
-        {
-            positionDebut += character.getText().length();
-        }
+    public void camera(View view)
+    {
+        normalMode(null);
+        imageRecognition.pick();
+    }
 
-        if(texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)([^)]\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante)
-        {
-            calcul.setText(texte);
+    public void voice(View view)
+    {
+        normalMode(null);
+        voiceRecognition.pick();
+    }
 
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            {
-                EditText editText = (EditText)calcul;
-                editText.setSelection(positionDebut);
-            }
-        }
-
-        resultatPartiel();
+    public void handwritting(View view)
+    {
+         //findViewById(R.id.mode_principal).setLa;
     }
 
     public void historique(View view)
@@ -254,6 +434,8 @@ public class MainActivity extends AppCompatActivity {
 
             calcul.setText(texteResultat);
             resultat.setText("");
+            EditText editText = (EditText)calcul;
+            editText.setSelection(calcul.length());
         }
     }
 

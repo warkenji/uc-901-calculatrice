@@ -22,6 +22,9 @@
     <string name="vider_historique">Vider</string>
     <string name="titre_historique">Historique</string>
     <string name="calcul_id">calcul</string>
+    <string name="selection_start_id">selection start</string>
+    <string name="selection_end_id">selection end</string>
     <string name="resultat_id">resultat</string>
+    <string name="layout_actuel_id">layout actuel</string>
     <string name="erreur_calcul">Erreur</string>
 </resources>

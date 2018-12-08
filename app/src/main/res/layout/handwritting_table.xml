@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:onClick="handWrittingNormal"
         android:scaleType="fitCenter"
         android:src="@android:drawable/dialog_frame"
         android:tint="@android:color/holo_blue_dark" />
@@ -19,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:onClick="handWrittingDelete"
         android:scaleType="fitCenter"
         android:src="@android:drawable/gallery_thumb"
         android:tint="@android:color/holo_blue_dark" />
@@ -29,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:onClick="handWrittingPrevious"
         android:scaleType="fitCenter"
         android:src="@android:drawable/ic_menu_revert"
         android:tint="@android:color/holo_blue_dark" />
@@ -39,6 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:onClick="handWrittingForward"
         android:rotation="0"
         android:scaleType="fitCenter"
         android:scaleX="-1"

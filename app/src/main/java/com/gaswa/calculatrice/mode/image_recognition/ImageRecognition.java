@@ -4,9 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gaswa.calculatrice.MainActivity;
+import com.gaswa.calculatrice.R;
+import com.gaswa.calculatrice.mode.Recognition;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
@@ -14,78 +22,170 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class ImageRecognition {
-    private Activity activity;
-    private final int PICK_IMAGE_REQUEST_CODE = 10;
-    private final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 11;
+public class ImageRecognition extends Recognition {
+    private MainActivity activity;
+    private final int IMAGE_REQUEST_CODE = 10;
+    private final int IMAGE_PERMISSION_CODE = 11;
+    private final int CAMERA_REQUEST_CODE = 12;
+    private final int CAMERA_PERMISSION_CODE = 13;
 
-    public ImageRecognition(Activity activity)
+    public ImageRecognition(MainActivity activity)
     {
         this.activity = activity;
     }
 
+    public void pick() {
+        String[] items = {"Caméra", "Galerie"};
+        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+
+        dialog.setItems(items, (dialogInterface, which) -> {
+            switch (which) {
+                case 0:
+                    pickCamera();
+                    break;
+                case 1:
+                    pickImage();
+                    break;
+            }
+        });
+
+        dialog.show();
+    }
+
     private void pickImage() {
-        if (ActivityCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            );
-            intent.setType("image/*");
-            activity.startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
-        } else {
-            String[] permissions;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
-                ActivityCompat.requestPermissions(
-                        activity,
-                        permissions,
-                        READ_EXTERNAL_STORAGE_REQUEST_CODE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (ActivityCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        IMAGE_PERMISSION_CODE);
+            } else {
+                Intent imageIntent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.INTERNAL_CONTENT_URI
                 );
+                imageIntent.setType("image/*");
+                activity.startActivityForResult(imageIntent, IMAGE_REQUEST_CODE);
+            }
+        }
+    }
+
+    private void pickCamera() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (ActivityCompat.checkSelfPermission(activity, CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA},
+                        CAMERA_PERMISSION_CODE);
+            } else {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                activity.startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
             }
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_IMAGE_REQUEST_CODE) {
-            if (resultCode != Activity.RESULT_OK) {
-                return;
-            }
-            if(data != null) {
+        FirebaseVisionImage image = null;
+        if(resultCode == Activity.RESULT_OK && data != null) {
+            try {
+        switch(requestCode) {
+            case IMAGE_REQUEST_CODE:
                 Uri uri = data.getData();
 
                 if (uri != null) {
-                    try {
-                        FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(activity, uri);
+                        activity.findViewById(R.id.calcul);
+                        image = FirebaseVisionImage.fromFilePath(activity, uri);
+                }
+                break;
 
-                        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                                .getOnDeviceTextRecognizer();
+            case CAMERA_REQUEST_CODE:
+                Bundle bundle = data.getExtras();
 
-                        detector.processImage(image)
-                                .addOnSuccessListener(firebaseVisionText -> {
+                if(bundle != null)
+                {
+                    Bitmap bitmap = (Bitmap)bundle.get("data");
 
-                                })
-                                .addOnFailureListener(
-                                        Throwable::printStackTrace);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if(bitmap != null)
+                    {
+                        image = FirebaseVisionImage.fromBitmap(bitmap);
                     }
                 }
+                break;
             }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(image != null)
+        {
+            final TextView calcul = activity.findViewById(R.id.calcul);
+            final TextView resultat = activity.findViewById(R.id.resultat);
+            FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
+                    .getOnDeviceTextRecognizer();
+
+            detector.processImage(image)
+                    .addOnSuccessListener(firebaseVisionText -> {
+                        String texte = conversion(firebaseVisionText.getText());
+                        boolean verif = texte.length() > 0 && texte.charAt(texte.length() - 1) == '=';
+                        if(verif)
+                        {
+                            texte = texte.substring(0, texte.length() - 1);
+                        }
+
+                        if(activity.verification(texte))
+                        {
+                            calcul.setText(texte);
+
+                            if(verif)
+                            {
+                                activity.resolution(activity.findViewById(R.id.resolution));
+                            }
+                            else
+                            {
+                                activity.resultatPartiel();
+                            }
+                        }
+                        else
+                        {
+                            calcul.setText("");
+                            resultat.setText("");
+                        }
+                    })
+                    .addOnFailureListener(e-> {
+                        calcul.setText("");
+                        resultat.setText("");
+                        e.printStackTrace();
+                    });
         }
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case READ_EXTERNAL_STORAGE_REQUEST_CODE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // pick image after request permission success
+    public void onRequestPermissionsResult(int requestCode, @NonNull int[] grantResults) {
+        if (requestCode == IMAGE_PERMISSION_CODE || requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (requestCode == IMAGE_PERMISSION_CODE) {
                     pickImage();
                 }
-                break;
+                else
+                {
+                    pickCamera();
+                }
+            }
+            else
+            {
+                String message;
+                if (requestCode == IMAGE_PERMISSION_CODE) {
+                    message = "Permission d'accès à la galerie refusé.";
+                }
+                else
+                {
+                    message = "Permission d'accès à la caméra refusé.";
+                }
+
+                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
