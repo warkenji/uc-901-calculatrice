@@ -52,7 +52,7 @@ Ce bouton permet d'activé la fonction vocal de la calculatrice.
 ![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix3.png)
 
 Dans ce mode (retournant à la premiere vue) on indique oralement son calcul.
-Certain mot clé sont a utilisé pour effectué des action précise:
+Certains mots-clés sont a utilisé pour effectué des action précise:
 
 - Ouvrir une parenthèse: `parenthèse ouvrante`
 - Fermer une parenthèse: `parenthèse fermante`
