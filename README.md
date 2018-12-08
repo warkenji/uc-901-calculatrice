@@ -20,7 +20,7 @@ Dans cette vue on peut appuyer sur les touches pour effectuer un calcul et depla
 
 Ce bouton affiche la vue permettant d'écrire en manuscrit.
 
-![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix1.png)
+![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix2.png)
 
 Dans cette vue on peut écrire dans un cadre pour effectuer un calcul.
 
@@ -63,7 +63,7 @@ Certain mot clé sont a utilisé pour effectué des action précise:
 
 Ce bouton permet d'effectué un calcul via une image ou la caméra.
 
-![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix3.png)
+![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix4.png)
 
 Dans ce mode (retournant à la premiere vue) on indique si on veut que le calcul se fasse via la caméra ou via une image, si le signe `=` est present à la fin du calcul, il renvoit directement le résultat.
 
