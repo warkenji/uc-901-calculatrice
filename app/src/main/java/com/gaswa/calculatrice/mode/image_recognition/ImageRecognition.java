@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,6 +137,11 @@ public class ImageRecognition extends Recognition {
                         if(activity.verification(texte))
                         {
                             calcul.setText(texte);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                EditText editText = (EditText) calcul;
+                                editText.setSelection(calcul.length());
+                            }
 
                             if(verif)
                             {

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaswa.calculatrice.MainActivity;
@@ -42,6 +43,7 @@ public class VoiceRecognition extends Recognition {
         if(requestCode == VOICE_REQUEST_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 TextView calcul = activity.findViewById(R.id.calcul);
+                TextView resultat = activity.findViewById(R.id.resultat);
                 List<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                 if(result.size() > 0) {
@@ -56,6 +58,11 @@ public class VoiceRecognition extends Recognition {
                     {
                         calcul.setText(texte);
 
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            EditText editText = (EditText) calcul;
+                            editText.setSelection(calcul.length());
+                        }
+
                         if(verif)
                         {
                             activity.resolution(null);
@@ -64,6 +71,11 @@ public class VoiceRecognition extends Recognition {
                         {
                             activity.resultatPartiel();
                         }
+                    }
+                    else
+                    {
+                        calcul.setText("");
+                        resultat.setText("");
                     }
 
                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());

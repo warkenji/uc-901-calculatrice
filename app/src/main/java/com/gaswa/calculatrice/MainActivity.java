@@ -94,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
             {
                 calcul.setText(texte);
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    EditText editText = (EditText) calcul;
+                    editText.setSelection(calcul.length());
+                }
+
                 if(verif)
                 {
                     MainActivity.this.resolution(MainActivity.this.findViewById(R.id.resolution));
