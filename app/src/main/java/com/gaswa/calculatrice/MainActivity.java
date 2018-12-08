@@ -230,8 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
         imageRecognition.onActivityResult(requestCode, resultCode, data);
         voiceRecognition.onActivityResult(requestCode, resultCode, data);
-
-        TextView calcul = findViewById(R.id.calcul);
     }
 
     @Override
@@ -327,11 +325,6 @@ public class MainActivity extends AppCompatActivity {
     {
         normalMode(null);
         voiceRecognition.pick();
-    }
-
-    public void handwritting(View view)
-    {
-         //findViewById(R.id.mode_principal).setLa;
     }
 
     public void historique(View view)
