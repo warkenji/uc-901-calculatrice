@@ -1,6 +1,5 @@
 package com.gaswa.calculatrice.mode.image_recognition;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,8 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.*;
 
 public class ImageRecognition extends Recognition {
     private MainActivity activity;
@@ -62,7 +60,7 @@ public class ImageRecognition extends Recognition {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (ActivityCompat.checkSelfPermission(activity, READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                ActivityCompat.requestPermissions(activity, new String[]{READ_EXTERNAL_STORAGE},
                         IMAGE_PERMISSION_CODE);
             } else {
                 Intent imageIntent = new Intent(Intent.ACTION_PICK,
@@ -77,7 +75,7 @@ public class ImageRecognition extends Recognition {
     private void pickCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (ActivityCompat.checkSelfPermission(activity, CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA},
+                ActivityCompat.requestPermissions(activity, new String[]{CAMERA},
                         CAMERA_PERMISSION_CODE);
             } else {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -128,7 +126,7 @@ public class ImageRecognition extends Recognition {
 
             detector.processImage(image)
                     .addOnSuccessListener(firebaseVisionText -> {
-                        String texte = conversion(firebaseVisionText.getText());
+                        String texte = activity.conversion(firebaseVisionText.getText());
                         boolean verif = texte.length() > 0 && texte.charAt(texte.length() - 1) == '=';
                         if(verif)
                         {

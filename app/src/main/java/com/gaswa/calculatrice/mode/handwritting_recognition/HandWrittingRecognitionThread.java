@@ -8,7 +8,7 @@ public class HandWrittingRecognitionThread extends Thread {
     private HandWrittingRecognition surface;
     private SurfaceHolder surfaceHolder;
 
-    public HandWrittingRecognitionThread(HandWrittingRecognition surface, SurfaceHolder surfaceHolder)  {
+    HandWrittingRecognitionThread(HandWrittingRecognition surface, SurfaceHolder surfaceHolder)  {
         this.surface = surface;
         this.surfaceHolder= surfaceHolder;
     }
@@ -16,7 +16,7 @@ public class HandWrittingRecognitionThread extends Thread {
     @Override
     public void run()  {
         while(continuer)  {
-            Canvas canvas= null;
+            Canvas canvas = null;
             try {
                 // Get Canvas from Holder and lock it.
                 canvas = this.surfaceHolder.lockCanvas();

@@ -87,23 +87,6 @@ public class HandWrittingRecognition extends SurfaceView implements SurfaceHolde
         pos = new PointF();
     }
 
-
-    private String conversion(String texte)
-    {
-        texte = texte.replaceAll("[\\s\\n\\t\\r]+", "");
-        texte = texte.replace('x', '×');
-        texte = texte.replace('X', '×');
-        texte = texte.replace('*', '×');
-        texte = texte.replace('-', '−');
-        texte = texte.replace('/', '÷');
-        return texte;
-    }
-
-    public void normal() {
-        emboss = false;
-        blur = false;
-    }
-
     public void normalMode()
     {
         strokeWidth = BRUSH_SIZE_MIN;
@@ -116,23 +99,6 @@ public class HandWrittingRecognition extends SurfaceView implements SurfaceHolde
         currentColor = Color.WHITE;
     }
 
-    public void emboss() {
-        emboss = true;
-        blur = false;
-    }
-
-    public void blur() {
-        emboss = false;
-        blur = true;
-    }
-
-    public void clear() {
-        backgroundColor = DEFAULT_BG_COLOR;
-        paths.clear();
-        normal();
-        invalidate();
-    }
-
     public void update()  {
         if(image == null) {
             image = FirebaseVisionImage.fromBitmap(mBitmap);
@@ -141,7 +107,7 @@ public class HandWrittingRecognition extends SurfaceView implements SurfaceHolde
                     .addOnSuccessListener(firebaseVisionText -> {
                         if(resultatListener != null)
                         {
-                            resultatListener.onResultReceived(conversion(firebaseVisionText.getText().trim()));
+                            resultatListener.onResultReceived(firebaseVisionText.getText().trim());
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -150,9 +116,7 @@ public class HandWrittingRecognition extends SurfaceView implements SurfaceHolde
                             resultatListener.onResultReceived("");
                         }
                     })
-                    .addOnCompleteListener(task -> {
-                        image = null;
-                    });
+                    .addOnCompleteListener(task -> image = null);
         }
     }
 
@@ -238,7 +202,7 @@ public class HandWrittingRecognition extends SurfaceView implements SurfaceHolde
         mPath = new Path();
         FingerPath fp = new FingerPath(currentColor, emboss, blur, strokeWidth, mPath);
         paths.add(fp);
-        forwardPaths.clear();;
+        forwardPaths.clear();
 
         mPath.reset();
         mPath.moveTo(x, y);

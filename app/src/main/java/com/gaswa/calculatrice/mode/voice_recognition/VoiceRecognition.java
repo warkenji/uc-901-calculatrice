@@ -42,11 +42,10 @@ public class VoiceRecognition extends Recognition {
         if(requestCode == VOICE_REQUEST_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 TextView calcul = activity.findViewById(R.id.calcul);
-                TextView resultat = activity.findViewById(R.id.resultat);
                 List<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
                 if(result.size() > 0) {
-                    String texte = conversion(result.get(0));
+                    String texte = activity.conversion(result.get(0));
                     boolean verif = texte.length() > 0 && texte.charAt(texte.length() - 1) == '=';
                     if(verif)
                     {
@@ -81,5 +80,10 @@ public class VoiceRecognition extends Recognition {
                 }
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, int[] grantResults) {
+
     }
 }

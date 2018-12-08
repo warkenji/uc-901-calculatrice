@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         changementVue(layoutActuel);
 
         HandWrittingRecognition handWrittingRecognition = findViewById(R.id.handwritting_view);
-        handWrittingRecognition.setResultatListener(texte -> {
+        handWrittingRecognition.setResultatListener(texteResultat -> {
+            String texte = conversion(texteResultat);
             TextView calcul = findViewById(R.id.calcul);
             TextView resultat = findViewById(R.id.resultat);
 
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         imageRecognition.onRequestPermissionsResult(requestCode, grantResults);
+        voiceRecognition.onRequestPermissionsResult(requestCode, grantResults);
     }
 
     public void inserer(View view) {
@@ -293,6 +295,19 @@ public class MainActivity extends AppCompatActivity {
         resultatPartiel();
     }
 
+    public String conversion(String texte)
+    {
+        texte = texte.replaceAll("parenthèses? ouvrantes?", "(");
+        texte = texte.replaceAll("parenthèses? ferm[ea]ntes?", ")");
+        texte = texte.replaceAll("[\\s\\n\\t\\r]+", "");
+        texte = texte.replace('x', '×');
+        texte = texte.replace('X', '×');
+        texte = texte.replace('*', '×');
+        texte = texte.replace('-', '−');
+        texte = texte.replace('/', '÷');
+        return texte;
+    }
+
     public boolean verification(String texte)
     {
 
@@ -312,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        return texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)((?<!\\))\\d\\)?(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante;
+        return texte.matches("^(−?\\(+)*−?(\\d*|\\d+(,\\d*)?)((?<!\\))\\d\\)*(([+−]|[×÷]−?)(\\(−?)*(\\d*|\\d+(,\\d*)?))?)*$") && nbParentheseOuvrante >= nbParentheseFermante;
     }
 
     public void camera(View view)
