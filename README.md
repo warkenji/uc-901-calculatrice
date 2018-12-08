@@ -61,7 +61,7 @@ Certains mots-clés sont a utilisé pour effectué des action précise:
 #### Bouton: Mode image
 ![Bouton du mode vocale du Menu](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/menu_photo.png)
 
-Ce bouton permet d'effectué un calcul via une image ou la caméra.
+Ce bouton permet d'effectuer un calcul via une image ou la caméra.
 
 ![mode écriture manuscrite](https://raw.githubusercontent.com/warkenji/uc-901-calculatrice/master/img/choix4.png)
 
