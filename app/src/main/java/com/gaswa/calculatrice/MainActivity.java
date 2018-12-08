@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(verif)
                 {
-                    MainActivity.this.resolution(MainActivity.this.findViewById(R.id.resolution));
+                    MainActivity.this.resolution(null);
                 }
                 else
                 {

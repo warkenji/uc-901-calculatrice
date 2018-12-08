@@ -145,7 +145,7 @@ public class ImageRecognition extends Recognition {
 
                             if(verif)
                             {
-                                activity.resolution(activity.findViewById(R.id.resolution));
+                                activity.resolution(null);
                             }
                             else
                             {
